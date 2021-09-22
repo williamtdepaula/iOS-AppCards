@@ -21,7 +21,7 @@ struct ContentView: View {
             .padding()
             
             Button(action: /*@START_MENU_TOKEN@*/{}/*@END_MENU_TOKEN@*/, label: {
-                Text("Button")
+                Text("Button1")
             })
         }
     }
