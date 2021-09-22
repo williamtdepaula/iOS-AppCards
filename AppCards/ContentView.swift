@@ -9,28 +9,62 @@ import SwiftUI
 
 
 struct ContentView: View {
-    let options: Array<String> = ["👻", "🏎", "🦈", "🌭", "🏎"].shuffled()
+    let options: Array<String> = ["👻", "🏎", "🦈", "🌭", "X", "F", "G", "H",].shuffled()
+    
+    @State var totalEmoji: Int = 4
+    
+    func addEmoji() -> Void{
+        if totalEmoji < options.count{
+            totalEmoji += 1
+        }
+    }
+    
+    func removeEmoji() -> Void{
+        if totalEmoji > 1{
+            totalEmoji -= 1
+        }
+    }
     
     var body: some View {
         return VStack{
-            HStack {
-                ForEach(0..<options.count, id: \.self){
-                    index in CardView(char: options[index])
+            LazyVGrid(columns: [GridItem(.adaptive(minimum: 65))]) {
+                ForEach(options[0..<totalEmoji], id: \.self){
+                    emoji in CardView(char: emoji).aspectRatio(2/3, contentMode: .fit)
                 }
-            }.foregroundColor(.orange)
+            }
+            .foregroundColor(.orange)
             .padding()
             
-            Button(action: /*@START_MENU_TOKEN@*/{}/*@END_MENU_TOKEN@*/, label: {
-                Text("Button1")
-            })
+            Spacer()
+            
+            HStack{
+                remove
+                Spacer()
+                add
+            }
+            .font(.largeTitle)
+            .padding()
         }
+    }
+    
+    
+    var add: some View {
+        Button(action: addEmoji, label: {
+            Image(systemName: "plus.circle")
+        })
+    }
+    
+    var remove: some View {
+        Button(action: removeEmoji, label: {
+            Image(systemName: "minus.circle")
+        })
     }
 }
 
 struct CardView: View{
     let char: String;
     
-    @State var isFaceUp: Bool = false;
+    @State var isFaceUp: Bool = true;
     
     func onTapCard() -> Void {
         isFaceUp = !isFaceUp
@@ -41,13 +75,14 @@ struct CardView: View{
             if isFaceUp{
                 RoundedRectangle(cornerRadius: 10.0).fill(Color.white)
                 RoundedRectangle(cornerRadius: 10.0)
-                    .stroke(lineWidth: 2.0)
+                    .strokeBorder(lineWidth: 4.0)
                 Text(char)
             } else {
                 RoundedRectangle(cornerRadius: 10.0);
             }
         }
         .onTapGesture(perform: onTapCard)
+        .font(.largeTitle)
     }
 }
 
@@ -55,6 +90,9 @@ struct CardView: View{
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
+            .preferredColorScheme(.light)
+        ContentView()
+            .previewDevice("iPad mini (5th generation)")
             .preferredColorScheme(.light)
     }
 }
