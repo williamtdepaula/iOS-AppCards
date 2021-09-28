@@ -13,7 +13,7 @@ struct AppCardsApp: App {
     
     var body: some Scene {
         WindowGroup {
-            ContentView(viewModel: gameEmojiMemoryGameViewModel)
+            EmojiMemoryGameView(gameViewModel: gameEmojiMemoryGameViewModel)
         }
     }
 }
